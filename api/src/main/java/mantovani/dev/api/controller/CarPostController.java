@@ -2,6 +2,7 @@ package mantovani.dev.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import mantovani.dev.api.dto.CarPostDTO;
+import mantovani.dev.api.message.KafkaProducerMessage;
 import mantovani.dev.api.service.CarPostStoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CarPostController {
 
-    private CarPostStoreService carPostStoreService;
+    private final CarPostStoreService carPostStoreService;
+    private final KafkaProducerMessage kafkaProducerMessage;
 
-
+    @PostMapping("/post")
+    public ResponseEntity postCarForSale(@RequestBody CarPostDTO carPostDTO){
+        kafkaProducerMessage.sendMessage(carPostDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/posts")
     public ResponseEntity<List<CarPostDTO>> getCarSales(){
