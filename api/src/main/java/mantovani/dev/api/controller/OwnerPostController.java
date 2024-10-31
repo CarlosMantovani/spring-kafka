@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/owner") // owner of the car for sale - this user need be created
+@RequestMapping("/owner")
 public class OwnerPostController {
 
     @Autowired
