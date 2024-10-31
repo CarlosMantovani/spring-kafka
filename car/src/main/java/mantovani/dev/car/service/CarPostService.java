@@ -9,6 +9,7 @@ import mantovani.dev.car.repository.OwnerPostRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -25,14 +26,28 @@ public class CarPostService {
     public List<CarPostDTO> getCarSales() {
         List<CarPostDTO> listCarSales = new ArrayList<>();
         return carPostRepository.findAll().stream().map(carMapper::toCarPostDto)
-                .collect(Collectors.toList()).stream().collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     public void changeCarSales(CarPostDTO carPostDTO, Long postId) {
+            carPostRepository.findById(postId).ifPresentOrElse(item -> {
+                item.setDescription(carPostDTO.getDescription());
+                item.setContact(carPostDTO.getContact());
+                item.setPrice(carPostDTO.getPrice());
+                item.setBrand(carPostDTO.getBrand());
+                item.setEngineVersion(carPostDTO.getEngineVersion());
+                item.setModel(carPostDTO.getModel());
+
+                carPostRepository.save(item);
+            }, ()-> {
+                throw new NoSuchElementException();
+            });
 
     }
 
     public void removeCarSale(Long postId) {
+
+        carPostRepository.deleteById(postId);
 
     }
 
