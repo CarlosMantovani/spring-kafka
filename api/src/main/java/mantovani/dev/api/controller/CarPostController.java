@@ -21,7 +21,7 @@ public class CarPostController {
     @PostMapping("/post")
     public ResponseEntity postCarForSale(@RequestBody CarPostDTO carPostDTO){
         kafkaProducerMessage.sendMessage(carPostDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/posts")
@@ -32,7 +32,7 @@ public class CarPostController {
     @PutMapping("/{id}")
     public ResponseEntity changeCarSale(@RequestBody CarPostDTO carPostDTO, @PathVariable("id") String id){
         carPostStoreService.changeCarForSale(carPostDTO,id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
