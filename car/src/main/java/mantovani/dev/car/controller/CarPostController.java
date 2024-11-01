@@ -12,8 +12,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/sales")
 @RequiredArgsConstructor
-
 public class CarPostController {
+
     private final CarPostService carPostService;
 
     @GetMapping("/cars")
