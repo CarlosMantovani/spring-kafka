@@ -10,4 +10,8 @@ public class CarMapper {
         public CarPostDTO toCarPostDto(CarPostEntity carPostEntity){
             return new ModelMapper().map(carPostEntity, CarPostDTO.class);
         }
+
+        public CarPostEntity toCarPostEntity(CarPostDTO carPostDTO){
+            return new ModelMapper().map(carPostDTO, CarPostEntity.class);
+        }
 }
