@@ -3,6 +3,7 @@ package mantovani.dev.car.service;
 import lombok.RequiredArgsConstructor;
 import mantovani.dev.car.dto.CarPostDTO;
 import mantovani.dev.car.dto.mapper.CarMapper;
+import mantovani.dev.car.entity.CarPostEntity;
 import mantovani.dev.car.repository.CarPostRepository;
 import mantovani.dev.car.repository.OwnerPostRepository;
 
@@ -20,7 +21,15 @@ public class CarPostService {
     private final CarMapper carMapper;
 
     public void newPostDetails(CarPostDTO carPostDTO) {
-
+        CarPostEntity carPostEntity = carMapper.toCarPostEntity(carPostDTO);
+        ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item ->{
+            carPostEntity.setOwnerPost(item);
+            carPostEntity.setContact(item.getContactNumber());
+        }, ()-> {
+            throw new RuntimeException();
+        });
+;
+        carPostRepository.save(carPostEntity);
     }
 
     public List<CarPostDTO> getCarSales() {
