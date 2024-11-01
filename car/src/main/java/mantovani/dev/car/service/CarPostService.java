@@ -6,13 +6,14 @@ import mantovani.dev.car.dto.mapper.CarMapper;
 import mantovani.dev.car.entity.CarPostEntity;
 import mantovani.dev.car.repository.CarPostRepository;
 import mantovani.dev.car.repository.OwnerPostRepository;
+import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-
+@Service
 @RequiredArgsConstructor
 public class CarPostService {
 
@@ -22,14 +23,15 @@ public class CarPostService {
 
     public void newPostDetails(CarPostDTO carPostDTO) {
         CarPostEntity carPostEntity = carMapper.toCarPostEntity(carPostDTO);
+        carPostEntity.setId(null);
         ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item ->{
             carPostEntity.setOwnerPost(item);
             carPostEntity.setContact(item.getContactNumber());
+            carPostRepository.save(carPostEntity);
         }, ()-> {
             throw new RuntimeException();
         });
-;
-        carPostRepository.save(carPostEntity);
+
     }
 
     public List<CarPostDTO> getCarSales() {
