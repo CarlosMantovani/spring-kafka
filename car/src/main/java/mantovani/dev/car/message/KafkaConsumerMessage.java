@@ -18,11 +18,12 @@ public class KafkaConsumerMessage {
 
     @KafkaListener(topics = "car-post-topic", groupId = "store-posts-group")
     public void listening(CarPostDTO carPost) {
-
         LOG.info("Received Car Post information: {}", carPost);
-        carPostService.newPostDetails(carPost);
 
+        try {
+            carPostService.newPostDetails(carPost);
+        } catch (Exception e) {
+            LOG.error("Error processing Car Post: {}", e.getMessage(), e);
+        }
     }
-
-
 }
