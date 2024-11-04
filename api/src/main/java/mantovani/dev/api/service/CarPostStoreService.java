@@ -1,17 +1,27 @@
 package mantovani.dev.api.service;
 
+import lombok.RequiredArgsConstructor;
+import mantovani.dev.api.client.CarPostStoreClient;
 import mantovani.dev.api.dto.CarPostDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public interface CarPostStoreService {
+@RequiredArgsConstructor
+public class CarPostStoreService {
 
-    List<CarPostDTO> getCarForSales();
+    private final CarPostStoreClient carPostStoreClient;
 
+    public List<CarPostDTO> getCarForSales() {
+        return carPostStoreClient.carForSaleClient();
+    }
 
-    void changeCarForSale(CarPostDTO carPost, String id);
+    public void changeCarForSale(CarPostDTO carPost, String id) {
+        carPostStoreClient.changeCarForSaleClient(carPost, id);
+    }
 
-    void removeCarForSale(String id);
+    public void removeCarForSale(String id) {
+        carPostStoreClient.deleteCarForSaleClient(id);
+    }
 }
