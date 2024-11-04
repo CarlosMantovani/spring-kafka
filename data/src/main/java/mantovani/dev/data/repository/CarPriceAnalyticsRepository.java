@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CarPriceAnalyticsRepository extends JpaRepository<CarModelAnalyticsEntity, Long> {
+public interface CarPriceAnalyticsRepository extends JpaRepository<CarModelPriceEntity, Long> {
     Optional<CarModelPriceEntity> findByModel(String model);
 }
