@@ -1,8 +1,12 @@
 package mantovani.dev.api.controller;
 
 import lombok.RequiredArgsConstructor;
+import mantovani.dev.api.dto.AnalyticsBrandDTO;
+import mantovani.dev.api.dto.AnalyticsModelDTO;
+import mantovani.dev.api.dto.AnalyticsPriceDTO;
 import mantovani.dev.api.dto.CarPostDTO;
 import mantovani.dev.api.message.KafkaProducerMessage;
+import mantovani.dev.api.service.AnalyticsStoreService;
 import mantovani.dev.api.service.CarPostStoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +22,7 @@ import java.util.List;
 public class CarPostController {
     private final Logger LOG = LoggerFactory.getLogger(CarPostController.class);
     private final CarPostStoreService carPostStoreService;
+    private final AnalyticsStoreService analyticsStoreService;
     private final KafkaProducerMessage kafkaProducerMessage;
 
         @PostMapping("/post")
@@ -34,6 +39,18 @@ public class CarPostController {
         return ResponseEntity.status(HttpStatus.OK).body(carPostStoreService.getCarForSales());
     }
 
+    @GetMapping("/brands")
+    public ResponseEntity<List<AnalyticsBrandDTO>> getBrands(){
+            return ResponseEntity.status(HttpStatus.OK).body(analyticsStoreService.getBrandAnalytics());
+    }
+    @GetMapping("/model")
+    public ResponseEntity<List<AnalyticsModelDTO>> getModel(){
+        return ResponseEntity.status(HttpStatus.OK).body(analyticsStoreService.getModelAnalytics());
+    }
+    @GetMapping("/price")
+    public ResponseEntity<List<AnalyticsPriceDTO>> getPrice(){
+        return ResponseEntity.status(HttpStatus.OK).body(analyticsStoreService.getPriceAnalytics());
+    }
     @PutMapping("/{id}")
     public ResponseEntity changeCarSale(@RequestBody CarPostDTO carPostDTO, @PathVariable("id") String id){
         carPostStoreService.changeCarForSale(carPostDTO,id);
