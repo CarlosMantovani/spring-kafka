@@ -9,6 +9,8 @@ import mantovani.dev.car.repository.OwnerPostRepository;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,10 +24,14 @@ public class CarPostService {
     private final CarMapper carMapper;
 
     public void newPostDetails(CarPostDTO carPostDTO) {
+
+        DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
+
         CarPostEntity carPostEntity = carMapper.toCarPostEntity(carPostDTO);
         carPostEntity.setId(null);
         ownerPostRepository.findById(carPostDTO.getOwnerId()).ifPresentOrElse(item ->{
             carPostEntity.setOwnerPost(item);
+            carPostEntity.setCreatedDate(LocalDate.now().format(formatter));
             carPostEntity.setContact(item.getContactNumber());
             carPostRepository.save(carPostEntity);
         }, ()-> {
