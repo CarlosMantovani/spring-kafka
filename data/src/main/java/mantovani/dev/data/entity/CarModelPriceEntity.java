@@ -14,6 +14,6 @@ public class CarModelPriceEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private  String model;
-    private Long price;
+    private double price;
 
 }
