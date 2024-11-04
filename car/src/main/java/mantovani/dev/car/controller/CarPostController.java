@@ -18,7 +18,7 @@ public class CarPostController {
 
     @GetMapping("/cars")
     public ResponseEntity<List<CarPostDTO>> getCarSales(){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(carPostService.getCarSales());
+        return ResponseEntity.status(HttpStatus.OK).body(carPostService.getCarSales());
     }
 
     @PutMapping("/car/{id}")
